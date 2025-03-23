@@ -1,17 +1,16 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import Navigation from '@/components/navigation';
-import Footer from '@/components/footer';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
 
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Borderles Brand - Digital Marketing & Advertising Agency",
+  title: "Borderless Brand - Digital Marketing & Advertising Agency",
   description:
-    "Transform your brand with Borderles Brand's innovative digital marketing, advertising, video production, and branding solutions.",
+    "Transform your brand with Borderless Brand's innovative digital marketing, advertising, video production, and branding solutions.",
   keywords:
     "digital marketing, advertising, video production, branding, media marketing",
 };

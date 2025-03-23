@@ -406,7 +406,7 @@ export default function AboutPage() {
       </div>
 
       {/* Team Section */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -459,10 +459,10 @@ export default function AboutPage() {
             </motion.div>
           ))}
         </motion.div>
-      </div>
+      </div> */}
 
       {/* CTA Section */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -500,7 +500,7 @@ export default function AboutPage() {
           Get Started
           <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Button>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }

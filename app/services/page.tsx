@@ -368,6 +368,10 @@ import {
   Menu,
 } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import ServiceProcess from "./service-process";
+import ClientShowcase from "./client-showcase";
+import ServiceFeatures from "./service-features";
 
 // Separated services data for better maintainability
 const services = {
@@ -511,6 +515,9 @@ const ServiceFeature = ({ feature }: { feature: string }) => (
 const ServiceCard = ({
   service,
   id,
+  onMouseEnter,
+  onMouseLeave,
+  isActive,
 }: {
   service: {
     title: string;
@@ -519,11 +526,24 @@ const ServiceCard = ({
     features: string[];
   };
   id: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  isActive?: boolean;
 }) => (
-  <Card className="shadow-md hover:shadow-lg transition-all duration-300 h-full">
+  <Card
+    className={`shadow-md hover:shadow-lg transition-all duration-300 h-full ${
+      isActive ? "ring-2 ring-primary/20" : ""
+    }`}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+  >
     <CardHeader className="pb-2 sm:pb-4">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-        <div className="bg-primary/10 p-3 rounded-full">
+        <div
+          className={`bg-primary/10 p-3 rounded-full transition-all duration-300 ${
+            isActive ? "bg-primary/20" : ""
+          }`}
+        >
           <service.icon className="h-6 w-6 text-primary" aria-hidden="true" />
         </div>
         <div>
@@ -671,10 +691,22 @@ export default function ServicesPage() {
   const [selectedService, setSelectedService] = useState("brand-strategy");
   // Track screen size for responsive layout
   const [isMobile, setIsMobile] = useState(false);
+  // Track if rotation is paused (when user is interacting with services)
+  const [isRotationPaused, setIsRotationPaused] = useState(false);
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
 
   // Handle tab change to keep mobile dropdown in sync
   const handleTabChange = (value: string) => {
     setSelectedService(value);
+
+    // Temporarily pause rotation when user manually changes tab
+    setIsRotationPaused(true);
+    setTimeout(() => setIsRotationPaused(false), 8000); // Resume rotation after 8 seconds
 
     // Scroll to content on mobile when switching tabs
     if (isMobile) {
@@ -686,6 +718,23 @@ export default function ServicesPage() {
       }, 100);
     }
   };
+
+  // Automatic rotation for service cards
+  useEffect(() => {
+    if (isRotationPaused) return;
+
+    const interval = setInterval(() => {
+      // Get all service keys and find current index
+      const serviceKeys = Object.keys(services);
+      const currentIndex = serviceKeys.indexOf(selectedService);
+
+      // Move to next service, loop back to first if at the end
+      const nextIndex = (currentIndex + 1) % serviceKeys.length;
+      setSelectedService(serviceKeys[nextIndex]);
+    }, 5000); // Change service every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [selectedService, isRotationPaused]);
 
   // Update mobile state based on screen size
   useEffect(() => {
@@ -704,17 +753,32 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div className="container mx-auto py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4">
+    <div className="container mx-auto py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-b from-primary/5 to-transparent -z-10 blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-gradient-to-t from-accent/10 to-transparent -z-10 blur-3xl"></div>
+
       {/* Improved header section with better spacing and semantic markup */}
-      <section className="text-center mb-6 sm:mb-8 md:mb-12">
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+        className="text-center mb-6 sm:mb-8 md:mb-12"
+      >
+        <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+          Our Expertise
+        </span>
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3 sm:mb-4">
           Our Services
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto px-1 sm:px-2">
+        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-1 sm:px-2">
           Comprehensive digital solutions to elevate your brand and drive
-          meaningful engagement
+          meaningful engagement with your audience
         </p>
-      </section>
+      </motion.section>
+
+      {/* Featured Services Section */}
+      <ServiceFeatures className="mb-8 md:mb-12" />
 
       {/* Mobile service selector */}
       <MobileServiceSelector
@@ -731,56 +795,80 @@ export default function ServicesPage() {
       />
 
       {/* Main tabs component with accessibility improvements */}
-      <Tabs
-        value={selectedService}
-        onValueChange={handleTabChange}
-        className="w-full max-w-5xl mx-auto"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
-        {/* Desktop tabs - hidden on mobile and tablet */}
-        {/* <TabsList
-          className="hidden lg:grid w-full lg:grid-cols-3 mb-6 sticky top-0 z-10 bg-background/95 backdrop-blur-sm px-1 py-1 rounded-lg"
-          aria-label="Service categories"
+        <Tabs
+          value={selectedService}
+          onValueChange={handleTabChange}
+          className="w-full max-w-5xl mx-auto"
         >
-          {Object.entries(services).map(([key, service]) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="text-xs lg:text-sm py-2 lg:py-3"
-            >
-              <div className="flex flex-col items-center gap-1 lg:gap-2">
-                <service.icon
-                  className="h-4 w-4 lg:h-5 lg:w-5"
-                  aria-hidden="true"
+          {/* Service content */}
+          <div id="service-content">
+            {Object.entries(services).map(([key, service]) => (
+              <TabsContent
+                key={key}
+                value={key}
+                className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+              >
+                <ServiceCard
+                  service={service}
+                  id={key}
+                  isActive={selectedService === key}
+                  onMouseEnter={() => setIsRotationPaused(true)}
+                  onMouseLeave={() => setIsRotationPaused(false)}
                 />
-                <span className="line-clamp-1">{service.title}</span>
-              </div>
-            </TabsTrigger>
-          ))}
-        </TabsList> */}
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
 
-        {/* Service content */}
-        <div id="service-content">
-          {Object.entries(services).map(([key, service]) => (
-            <TabsContent
+        {/* Rotation indicator */}
+        <div className="flex justify-center mt-6 gap-2">
+          {Object.keys(services).map((key) => (
+            <button
               key={key}
-              value={key}
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
-            >
-              <ServiceCard service={service} id={key} />
-            </TabsContent>
+              onClick={() => handleTabChange(key)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                selectedService === key
+                  ? "bg-primary scale-125"
+                  : "bg-primary/20"
+              }`}
+              aria-label={`View ${
+                services[key as keyof typeof services].title
+              } service`}
+            />
           ))}
         </div>
-      </Tabs>
+      </motion.div>
+
+      {/* Service Process Section */}
+      <ServiceProcess className="mt-16 md:mt-24" />
+
+      {/* Client Showcase Section */}
+      {/* <ClientShowcase className="mt-16 md:mt-24" /> */}
 
       {/* Quick navigation section added at bottom for better UX */}
-      <nav className="mt-8 md:mt-12 lg:mt-16 max-w-4xl mx-auto px-1 sm:px-2">
+      {/* <motion.nav
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mt-8 md:mt-12 lg:mt-16 max-w-4xl mx-auto px-1 sm:px-2"
+      >
         <h2 className="text-lg md:text-xl font-medium mb-4 text-center">
           Quick Navigation
         </h2>
         <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
           {Object.entries(services).map(([key, service]) => (
-            <button
+            <motion.button
               key={key}
+              whileHover={{
+                scale: 1.03,
+                backgroundColor: "rgba(var(--primary), 0.1)",
+              }}
               onClick={() => handleTabChange(key)}
               className="flex items-center p-2 md:p-3 text-xs sm:text-sm border rounded-md hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
             >
@@ -789,10 +877,10 @@ export default function ServicesPage() {
                 aria-hidden="true"
               />
               <span className="truncate">{service.title}</span>
-            </button>
+            </motion.button>
           ))}
         </div>
-      </nav>
+      </motion.nav> */}
 
       {/* Mobile bottom spacing */}
       <div className="h-8 sm:h-12" aria-hidden="true"></div>

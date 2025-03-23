@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -10,48 +9,79 @@ import {
   Users,
   Zap,
   ArrowRight,
-  Star,
   BookOpen,
   ShoppingBag,
   RadioTower,
   LayoutTemplate,
   BarChart,
-  X,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
 
 import DynamicFrameLayout from "../components/DynamicFrameLayout";
+import LogoSection from "../components/LogoSection";
 
 export default function Home() {
   // State for the typing animation
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const fullText = "Your Story, Our Lens";
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [hasShownContent, setHasShownContent] = useState(false); // Track if content has been shown at least once
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const phrases = [
+    "Your Story, Our Lens",
+    "From Vision To Reality",
+    "Connecting Beyond Borders",
+  ];
   const typingSpeed = 100; // milliseconds per character
+  const delayBeforeDeleting = 2000; // pause for 2 seconds when text is complete
+  const deletingSpeed = 50; // faster when deleting
+  const delayBeforeTyping = 1000; // pause for 1 second before retyping
 
-  // Typing effect
+  // Get the current phrase to display
+  const fullText = phrases[currentPhraseIndex];
+
+  // Typing effect with loop
   useEffect(() => {
-    if (displayText.length < fullText.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(fullText.slice(0, displayText.length + 1));
-      }, typingSpeed);
+    let timeout: NodeJS.Timeout;
 
-      return () => clearTimeout(timeout);
-    } else {
-      setIsTypingComplete(true);
+    if (!isDeleting && displayText.length < fullText.length) {
+      // Typing mode
+      timeout = setTimeout(() => {
+        const newLength = displayText.length + 1;
+        setDisplayText(fullText.slice(0, newLength));
+        // Set typing complete when we reach the end of the text
+        if (newLength === fullText.length) {
+          setIsTypingComplete(true);
+          // Set hasShownContent to true once the typing is complete for the first time
+          if (!hasShownContent) {
+            setHasShownContent(true);
+          }
+        }
+      }, typingSpeed);
+    } else if (!isDeleting && displayText.length === fullText.length) {
+      // Text is complete, wait before deleting
+      setIsTypingComplete(true); // Ensure typing is marked as complete
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, delayBeforeDeleting);
+    } else if (isDeleting && displayText.length > 0) {
+      // Deleting mode
+      timeout = setTimeout(() => {
+        setDisplayText(displayText.slice(0, displayText.length - 1));
+      }, deletingSpeed);
+    } else if (isDeleting && displayText.length === 0) {
+      // Finished deleting, wait before typing again
+      setIsTypingComplete(false);
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+        // Move to the next phrase when starting a new typing cycle
+        setCurrentPhraseIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+      }, delayBeforeTyping);
     }
-  }, [displayText, fullText]);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, fullText, isDeleting]);
 
   return (
     <div>
@@ -63,20 +93,21 @@ export default function Home() {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative ml-6 md:ml-12 lg:ml-24 max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-left text-white">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl relative">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl relative min-h-[1.2em]">
               {displayText}
               <span
                 className={`absolute inline-block w-[2px] h-[1em] bg-white ml-1 ${
                   isTypingComplete ? "animate-pulse" : ""
                 }`}
+                data-testid="cursor"
               ></span>
             </h1>
             <motion.p
               className="mt-6 text-lg leading-8 max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{
-                opacity: isTypingComplete ? 1 : 0,
-                y: isTypingComplete ? 0 : 20,
+                opacity: hasShownContent || isTypingComplete ? 1 : 0,
+                y: hasShownContent || isTypingComplete ? 0 : 20,
               }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
@@ -87,8 +118,8 @@ export default function Home() {
               className="mt-10 flex items-center gap-x-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{
-                opacity: isTypingComplete ? 1 : 0,
-                y: isTypingComplete ? 0 : 20,
+                opacity: hasShownContent || isTypingComplete ? 1 : 0,
+                y: hasShownContent || isTypingComplete ? 0 : 20,
               }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
@@ -99,6 +130,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Logo Section */}
+      <LogoSection />
 
       {/* Core Values Section */}
       <section className="px-6 lg:px-8 bg-accent/50 py-16">
@@ -268,7 +302,7 @@ export default function Home() {
             <DynamicFrameLayout />
           </motion.div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-20">
             <Button asChild>
               <Link href="/portfolio" className="flex items-center">
                 View All Projects
