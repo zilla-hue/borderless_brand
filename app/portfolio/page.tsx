@@ -15,15 +15,16 @@ import {
 } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { X, ExternalLink, ArrowRight, Filter } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious,
+// } from "@/components/ui/carousel";
+// import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+// import { cn } from "@/lib/utils";
+// import LogoCarousel from "@/components/LogoCarousel";
 
 interface Project {
   id: number;
@@ -73,28 +74,71 @@ const clients = [
     name: "DB Brows",
     logo: "/images/db-brows.png",
   },
+  {
+    id: 5,
+    name: "WBHF",
+    logo: "/images/WBH LOGO -01.png",
+  },
+  {
+    id: 6,
+    name: "Range The Brand",
+    logo: "/images/Range The Brand.png",
+  },
+  {
+    id: 7,
+    name: "WSW",
+    logo: "/images/WSW-LOGO-1-1.webp",
+  },
+  {
+    id: 8,
+    name: "Voice Aid",
+    logo: "/images/voice-aid-logo-colors.png",
+  },
+  {
+    id: 9,
+    name: "SFC",
+    logo: "/images/SFC_Logox2.webp",
+  },
+  {
+    id: 10,
+    name: "EEMS",
+    logo: "/images/eems-logo (1).png",
+  },
+  {
+    id: 11,
+    name: "Digitvant",
+    logo: "/images/digitvant.png",
+  },
+  {
+    id: 12,
+    name: "Defense Headquarters",
+    logo: "/images/Defense head quarters.png",
+  },
+  {
+    id: 13,
+    name: "Logo 1700419940",
+    logo: "/images/logo1700419940.png",
+  },
 ];
 
 const testimonials = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    position: "Marketing Director",
-    company: "TechCorp",
+    name: "Margaret Spicy Yakubu",
+    position: "Co Founder",
+    company: "Gyali Foods",
     quote:
-      "The team at Borderless Brand transformed our visual identity and helped us connect with our audience in ways we never thought possible. The results speak for themselves.",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150",
+      "As someone with an uncompromising eye for quality and excellence, I can confidently say that no other entity has captured the essence of my vision through design as effectively as the Borderless Brand. Their ability to translate ideas into impactful visuals remains unparalleled.",
+    image: "/images/margaret-spicy-yakubu.jpeg",
   },
   {
     id: 2,
-    name: "Michael Chen",
+    name: "Ruth Edegbo",
     position: "CEO",
-    company: "Eco Loop",
+    company: "SipSup Hospitality",
     quote:
-      "Working with Borderless Brand was a game-changer for our sustainable product launch. Their strategic approach and creative execution exceeded our expectations.",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&h=150",
+      "Working with Borderless Brand has been a game changer for Sip-Sup Hospitality. They handle my website, graphics, and photography with such professionalism and creativity. Their ability to capture my vision and translate it into a strong online presence has been truly impressive. I highly recommend them to anyone looking to elevate their brand.",
+    image: "/images/ruth-edegbo.jpg",
   },
   {
     id: 3,
@@ -111,113 +155,91 @@ const testimonials = [
 const projects = [
   {
     id: 1,
-    title: "TechCorp Rebrand",
-    category: "Branding",
+    title: "TSPM Style Scape",
+    category: "Branding & Style Guide",
     description:
-      "Complete brand refresh for a leading tech company, including new visual identity and brand guidelines.",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&h=600",
-    tags: ["Branding", "Design", "Strategy"],
+      "Developed a comprehensive style scape for TSPM, establishing a cohesive visual direction and brand identity.",
+    image: "/images/TSPM - Style Scape copy.jpg",
+    tags: ["Branding", "Style Guide", "Visual Identity"],
     fullDescription:
-      "TechCorp approached us for a complete brand overhaul to reflect their evolution in the tech industry. We developed a modern, dynamic visual identity that positioned them as industry leaders.",
+      "For TSPM, we crafted a detailed style scape that unified their brand elements, color palette, and typography. This foundational work ensured consistency across all brand touchpoints and set the stage for impactful marketing materials.",
     results: [
-      "200% increase in brand recognition",
-      "150% increase in social media engagement",
-      "Successfully launched in 3 new markets",
+      "Unified brand visuals",
+      "Positive client feedback",
+      "Accelerated brand recognition",
     ],
-    relatedProjects: [6, 2], // Related to Organic Farm Branding and EcoLife Campaign
+    relatedProjects: [2, 3],
   },
   {
     id: 2,
-    title: "EcoLife Campaign",
-    category: "Digital Advertising",
+    title: "Tai Glow",
+    category: "Product Photography & Branding",
     description:
-      "Sustainable living awareness campaign with targeted digital advertising and social media strategy.",
-    image:
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&h=600",
-    tags: ["Digital Marketing", "Social Media", "Advertising"],
+      "Captured and branded Tai Glow's signature product line, highlighting its unique appeal and market positioning.",
+    image: "/images/Tai glow.jpg",
+    tags: ["Photography", "Branding", "Product"],
     fullDescription:
-      "EcoLife needed to increase awareness about sustainable living products. We created a comprehensive digital campaign that resonated with environmentally conscious consumers.",
+      "Our team executed a vibrant product shoot and developed branding assets for Tai Glow, emphasizing the product's natural glow and premium quality. The visuals were used across digital campaigns and packaging.",
     results: [
-      "3M+ campaign reach",
-      "45% increase in sales",
-      "25K+ new social media followers",
+      "Enhanced product visibility",
+      "Increased online engagement",
+      "Strengthened brand loyalty",
     ],
-    relatedProjects: [6, 1], // Related to Organic Farm Branding and TechCorp Rebrand
+    relatedProjects: [1, 4],
   },
   {
     id: 3,
-    title: "FoodFest Promo",
-    category: "Video Production",
+    title: "Style by Mercy",
+    category: "Fashion Design & Campaign",
     description:
-      "Promotional video series for an international food festival, showcasing cultural diversity through cuisine.",
-    image:
-      "https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=800&h=600",
-    tags: ["Video", "Events", "Production"],
+      "Fashion campaign and lookbook for Style by Mercy, showcasing contemporary designs and creative direction.",
+    image: "/images/Style by mercy.jpg",
+    tags: ["Fashion", "Campaign", "Design"],
     fullDescription:
-      "Created an engaging video series highlighting the diverse culinary experiences at FoodFest. The campaign captured the essence of international cuisine and cultural celebration.",
+      "We collaborated with Style by Mercy to produce a visually stunning campaign and lookbook, highlighting the brand's modern aesthetic and attention to detail. The project included creative direction, styling, and photography.",
     results: [
-      "1M+ video views",
-      "80% ticket sales increase",
-      "Featured in 5 major food publications",
+      "Featured in fashion magazines",
+      "Expanded client base",
+      "Boosted social media presence",
     ],
-    relatedProjects: [4, 5], // Related to Luxury Watch Collection and Urban Fitness App
+    relatedProjects: [2, 4],
   },
   {
     id: 4,
-    title: "Luxury Watch Collection",
-    category: "Product Photography",
+    title: "Gyali",
+    category: "Branding & Photography",
     description:
-      "Premium product photography for a luxury watch brand's new collection launch.",
-    image:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&h=600",
-    tags: ["Photography", "Luxury", "Product"],
+      "Branding and product photography for Gyali, capturing the elegance and craftsmanship of their product.",
+    image: "/images/Gyali.jpg",
+    tags: ["Food", "Branding", "Photography"],
     fullDescription:
-      "We created a sophisticated visual language for this luxury timepiece collection, highlighting craftsmanship and attention to detail through meticulous photography.",
+      "For Gyali, we delivered a refined branding package and a series of high-quality product photographs that emphasized the luxury and artistry of their product. The assets were used for web, print, and promotional campaigns.",
     results: [
-      "Featured in Vogue and GQ",
-      "35% increase in online sales",
-      "Successful expansion to international markets",
+      "Improved brand perception",
+      "Increased sales inquiries",
+      "Strengthened market positioning",
     ],
-    relatedProjects: [3, 1], // Related to FoodFest Promo and TechCorp Rebrand
+    relatedProjects: [1, 3],
   },
   {
     id: 5,
-    title: "Urban Fitness App",
-    category: "UI/UX Design",
+    title: "Sip-Sup Hospitality Website",
+    category: "Web Design & Hospitality",
     description:
-      "Complete user interface redesign for a fitness application targeting urban professionals.",
-    image:
-      "https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=800&h=600",
-    tags: ["UI/UX", "Mobile App", "Fitness"],
+      "Modern, responsive website for Sip-Sup Hospitality, showcasing services and brand story.",
+    image: "/images/sip-sup-hospitality.png",
+    tags: ["Web Design", "Hospitality", "Branding", "UI/UX"],
     fullDescription:
-      "We reimagined the user experience for this fitness platform, creating an intuitive interface that simplified workout tracking and social features for busy professionals.",
+      "We designed and developed a visually engaging, user-friendly website for Sip-Sup Hospitality. The site highlights their unique approach to hospitality, integrates their brand identity, and provides an intuitive experience for visitors seeking information about their services.",
     results: [
-      "120% increase in daily active users",
-      "Average session time increased by 45%",
-      "Featured in Apple's 'App of the Day'",
+      "Increased online inquiries",
+      "Improved brand perception",
+      "Mobile-first, accessible design",
+      "Positive client testimonial",
     ],
-    relatedProjects: [3, 2], // Related to FoodFest Promo and EcoLife Campaign
+    relatedProjects: [2, 3],
   },
-  {
-    id: 6,
-    title: "Organic Farm Branding",
-    category: "Brand Identity",
-    description:
-      "Comprehensive brand identity for a sustainable organic farm collective.",
-    image:
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=800&h=600",
-    tags: ["Branding", "Sustainable", "Agriculture"],
-    fullDescription:
-      "We developed an authentic brand identity that communicated the farm's commitment to sustainable practices and community values through thoughtful design elements.",
-    results: [
-      "Successful launch in 12 retail locations",
-      "60% increase in direct-to-consumer sales",
-      "Won Regional Sustainability Award",
-    ],
-    relatedProjects: [2, 1], // Related to EcoLife Campaign and TechCorp Rebrand
-  },
-] as const;
+];
 
 // Animation variants
 const fadeIn = {
@@ -434,14 +456,14 @@ export default function PortfolioPage() {
       </motion.div>
 
       {/* Client Logo Showcase */}
-      <motion.div
+      {/* <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeIn}
         className="my-24 py-16 px-6 bg-muted/30 rounded-2xl border border-border/50 relative overflow-hidden"
       >
-        {/* Decorative elements */}
+       
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/10 via-primary to-primary/10"></div>
         <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
@@ -460,55 +482,11 @@ export default function PortfolioPage() {
           </p>
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-5xl mx-auto relative z-10"
-        >
-          <CarouselContent>
-            {clients.map((client) => (
-              <CarouselItem
-                key={client.id}
-                className="md:basis-1/3 lg:basis-1/5"
-              >
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  className="p-6 h-40 flex items-center justify-center group"
-                >
-                  <div className="relative h-20 w-full p-4 rounded-xl border border-border/30 bg-card/50 backdrop-blur-sm hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 flex items-center justify-center overflow-hidden">
-                    {/* Enhanced gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/10 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
-                    {/* Decorative corner accent */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <div className="absolute top-0 right-0 w-3 h-3 bg-primary/30 transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
-                    </div>
-
-                    {/* Subtle radial gradient */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.01)_0%,rgba(0,0,0,0)_70%)] opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-
-                    <Image
-                      src={client.logo}
-                      alt={client.name}
-                      fill
-                      className="object-contain p-4 filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-90 group-hover:scale-100"
-                    />
-                  </div>
-                </motion.div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-center mt-8">
-            <div className="flex gap-2">
-              <CarouselPrevious className="static transform-none bg-background border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-300" />
-              <CarouselNext className="static transform-none bg-background border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-300" />
-            </div>
-          </div>
-        </Carousel>
-      </motion.div>
+        <div className="w-full max-w-5xl mx-auto relative z-10">
+          <LogoCarousel clients={clients} className="py-6" speed={40} />
+        </div>
+      </motion.div> */}
 
       {/* Testimonials Section */}
       <motion.div
@@ -603,7 +581,7 @@ export default function PortfolioPage() {
         onOpenChange={() => setSelectedProject(null)}
       >
         {selectedProject && (
-          <DialogContent className="max-w-5xl p-0 overflow-hidden bg-background/95 backdrop-blur-md border-primary/20 shadow-xl shadow-primary/5">
+          <DialogContent className="max-w-5xl p-0 overflow-y-auto max-h-[90vh] bg-background/95 backdrop-blur-md border-primary/20 shadow-xl shadow-primary/5">
             <Button
               className="absolute right-4 top-4 z-50 rounded-full p-2 bg-background/80 backdrop-blur-sm hover:bg-primary/20 transition-all duration-300 hover:scale-110"
               variant="ghost"
@@ -1049,25 +1027,27 @@ export default function PortfolioPage() {
                 <div className="flex items-start gap-4 mb-6">
                   <div className="text-4xl text-primary/30">❝</div>
                   <p className="text-lg italic text-foreground/90">
-                    The team at Borderless Brand transformed our visual identity
-                    and helped us connect with our audience in ways we never
-                    thought possible.
+                    As someone with an uncompromising eye for quality and
+                    excellence, I can confidently say that no other entity has
+                    captured the essence of my vision through design as
+                    effectively as the Borderless Brand. Their ability to
+                    translate ideas into impactful visuals remains unparalleled.
                   </p>
                 </div>
 
                 <div className="flex items-center gap-4">
                   <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-primary/20">
                     <Image
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150"
+                      src="/images/margaret-spicy-yakubu.jpeg"
                       alt="Client"
                       fill
                       className="object-cover"
                     />
                   </div>
                   <div>
-                    <h4 className="font-semibold">Sarah Johnson</h4>
+                    <h4 className="font-semibold">Margaret Spicy Yakubu</h4>
                     <p className="text-sm text-muted-foreground">
-                      Marketing Director, TechCorp
+                      Co Founder, Gyali Foods
                     </p>
                   </div>
                 </div>

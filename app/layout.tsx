@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     "Transform your brand with Borderless Brand's innovative digital marketing, advertising, video production, and branding solutions.",
   keywords:
     "digital marketing, advertising, video production, branding, media marketing",
+  icons: {
+    icon: "/images/favicon.ico",
+    apple: "/images/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

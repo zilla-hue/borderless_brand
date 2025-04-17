@@ -9,12 +9,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 // Stats data
-const stats = [
-  { value: "150+", label: "Happy Client" },
-  { value: "350+", label: "Project Done" },
-  { value: "25+", label: "Team Member" },
-  { value: "30+", label: "Award Winning" },
-];
+// const stats = [
+//   { value: "150+", label: "Happy Client" },
+//   { value: "350+", label: "Project Done" },
+//   { value: "25+", label: "Team Member" },
+//   { value: "30+", label: "Award Winning" },
+// ];
 
 // Values data
 const values = [
@@ -297,7 +297,7 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Section */}
-      <motion.div
+      {/* <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -314,7 +314,7 @@ export default function AboutPage() {
             <p className="text-sm">{stat.label}</p>
           </motion.div>
         ))}
-      </motion.div>
+      </motion.div> */}
 
       {/* Core Values Section */}
       <div className="mb-16">

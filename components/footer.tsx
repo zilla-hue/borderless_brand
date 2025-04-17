@@ -26,7 +26,7 @@ export default function Footer() {
               <Facebook className="h-6 w-6" />
             </Link>
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/borderlessbrand_"
               className="text-muted-foreground hover:text-primary"
             >
               <span className="sr-only">Instagram</span>

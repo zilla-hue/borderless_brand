@@ -4,6 +4,9 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 
+// This ensures TypeScript recognizes the jest-dom matchers
+// The actual type definitions are in types/testing-library__jest-dom.d.ts
+
 // Mock the window.matchMedia function which is not available in JSDOM
 Object.defineProperty(window, "matchMedia", {
   writable: true,

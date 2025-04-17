@@ -48,6 +48,51 @@ const clients = [
     name: "DB Brows",
     logo: "/images/db-brows.png",
   },
+  {
+    id: 5,
+    name: "WBHF",
+    logo: "/images/WBHF.jpg",
+  },
+  {
+    id: 6,
+    name: "Range The Brand",
+    logo: "/images/Range The Brand.png",
+  },
+  {
+    id: 7,
+    name: "WSW",
+    logo: "/images/WSW-LOGO-1-1.webp",
+  },
+  {
+    id: 8,
+    name: "Voice Aid",
+    logo: "/images/voice-aid-logo-colors.png",
+  },
+  {
+    id: 9,
+    name: "SFC",
+    logo: "/images/SFC_Logox2.webp",
+  },
+  {
+    id: 10,
+    name: "EEMS",
+    logo: "/images/eems-logo (1).png",
+  },
+  {
+    id: 11,
+    name: "Digitvant",
+    logo: "/images/digitvant.png",
+  },
+  {
+    id: 12,
+    name: "Defense Headquarters",
+    logo: "/images/Defense head quarters.png",
+  },
+  {
+    id: 13,
+    name: "Logo 1700419940",
+    logo: "/images/logo1700419940.png",
+  },
 ];
 
 const testimonials = [
@@ -130,15 +175,16 @@ const ClientShowcase: React.FC<ClientShowcaseProps> = ({ className }) => {
           <motion.div
             key={client.id}
             variants={fadeIn}
-            className="flex items-center justify-center p-4 bg-card border border-border/50 rounded-xl hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group"
+            className="flex items-center justify-center p-6 bg-card border border-border/50 rounded-xl hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group"
           >
-            <div className="relative h-16 w-full">
+            <div className="relative h-[100px] w-[100px] flex items-center justify-center">
               <Image
                 src={client.logo}
                 alt={`${client.name} logo`}
                 fill
-                sizes="(max-width: 768px) 100vw, 200px"
-                className="object-contain transition-all duration-300 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 100px"
+                className="object-contain p-2"
+                style={{ objectPosition: "center" }}
               />
             </div>
           </motion.div>
