@@ -1,40 +1,47 @@
-import { createHash, randomBytes } from "crypto";
+import { SignJWT, jwtVerify } from "jose";
+import { serialize, parse } from "cookie";
+import { NextRequest, NextResponse } from "next/server";
 
-// CSRF Token Generation and Validation
-const CSRF_TOKENS = new Map<string, number>();
+const CSRF_SECRET = new TextEncoder().encode(process.env.CSRF_SECRET || "super-secret-jwt-key-that-should-be-at-least-32-bytes-long");
+console.log("CSRF_SECRET (first 3 chars):", process.env.CSRF_SECRET ? process.env.CSRF_SECRET.substring(0, 3) : "");
+const TOKEN_NAME = "__Host-csrf";
+const MAX_AGE = 60 * 60 * 24 * 7; // 1 week
 
-export function generateToken(): string {
-  const token = randomBytes(32).toString("hex");
-  const hash = createHash("sha256").update(token).digest("hex");
-  CSRF_TOKENS.set(hash, Date.now() + 3600000); // 1 hour expiration
+export async function generateToken(res: NextResponse): Promise<string> {
+  const token = Math.random().toString(36).substring(2);
+  const signedToken = await new SignJWT({ token })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("1 week")
+    .sign(CSRF_SECRET);
+
+  res.headers.set(
+    "Set-Cookie",
+    serialize(TOKEN_NAME, signedToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: MAX_AGE,
+      path: "/",
+    })
+  );
   return token;
 }
 
-export function validateToken(token: string): boolean {
-  const hash = createHash("sha256").update(token).digest("hex");
-  const expiration = CSRF_TOKENS.get(hash);
-  if (!expiration || Date.now() > expiration) return false;
-  CSRF_TOKENS.delete(hash);
-  return true;
-}
+export async function validateToken(req: NextRequest): Promise<boolean> {
+  try {
+    const cookies = parse(req.headers.get("cookie") || "");
+    const signedToken = cookies[TOKEN_NAME];
+    const headerToken = req.headers.get("X-CSRF-Token");
 
-// Rate Limiter Configuration
-const RATE_LIMITS = new Map<string, number[]>();
-const MAX_REQUESTS = 5;
-const TIME_WINDOW = 60 * 1000; // 1 minute
+    if (!signedToken || !headerToken) {
+      return false;
+    }
 
-export const rateLimiter = {
-  isLimited(identifier: string): boolean {
-    const now = Date.now();
-    const timestamps = RATE_LIMITS.get(identifier) || [];
-    const recentRequests = timestamps.filter((ts) => now - ts < TIME_WINDOW);
+    const { payload } = await jwtVerify(signedToken, CSRF_SECRET);
 
-    if (recentRequests.length >= MAX_REQUESTS) return true;
-
-    RATE_LIMITS.set(identifier, [...recentRequests, now]);
+    return payload.token === headerToken;
+  } catch (error) {
+    console.error("CSRF token validation error:", error);
     return false;
-  },
-  reset(identifier: string) {
-    RATE_LIMITS.delete(identifier);
-  },
-};
+  }
+}
