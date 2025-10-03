@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { generateToken, validateToken, rateLimiter } from "@/lib/csrf";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -26,6 +25,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin } from "lucide-react";
+
+import emailjs from "@emailjs/browser";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -52,13 +53,9 @@ const staggerContainer = {
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [csrfToken, setCsrfToken] = useState("");
 
-  useEffect(() => {
-    setCsrfToken(generateToken());
-  }, []);
-
-  const form = useForm<z.infer<typeof formSchema>>({    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -69,24 +66,18 @@ export default function ContactPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (rateLimiter.isLimited(values.email)) {
-      toast.error("Too many requests. Please try again later.");
-      return;
-    }
-
-    if (!validateToken(csrfToken)) {
-      toast.error("Invalid form submission. Please refresh the page.");
-      return;
-    }
-
     setIsSubmitting(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await emailjs.send(
+        "service_6b3b2ab",
+        "template_gvdcnpc",
+        values,
+        "DzwYoGldlvOhqPbni"
+      );
       toast.success("Message sent successfully! We'll get back to you soon.");
       form.reset();
-      setCsrfToken(generateToken()); // Generate new token after success
     } catch (error) {
+      console.error("EmailJS error:", error);
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -132,7 +123,6 @@ export default function ContactPage() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6"
                 >
-                  <input type="hidden" name="csrfToken" value={csrfToken} />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
