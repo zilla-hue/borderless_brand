@@ -69,10 +69,10 @@ export default function ContactPage() {
     setIsSubmitting(true);
     try {
       await emailjs.send(
-        "service_6b3b2ab",
-        "template_gvdcnpc",
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
         values,
-        "DzwYoGldlvOhqPbni"
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ""
       );
       toast.success("Message sent successfully! We'll get back to you soon.");
       form.reset();
